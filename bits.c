@@ -249,10 +249,10 @@ isTmax(int x)
 int
 allOddBits(int x)
 {
-  int mask = (0xAA << 8) + 0xAA;
-  mask = (mask << 16) + mask;
+	int mask = (0xAA << 8) + 0xAA;
+	mask = (mask << 16) + mask;
 
-  return !((x & mask) ^ mask);
+	return !((x & mask) ^ mask);
 }
 /*
  * negate - return -x
@@ -264,7 +264,7 @@ allOddBits(int x)
 int
 negate(int x)
 {
-	return 2;
+	return (~x) + 1;
 }
 // 3
 /*
@@ -275,10 +275,40 @@ negate(int x)
  *   Max ops: 15
  *   Rating: 3
  */
+// 3: 0011
+// 9: 1001
+// 30: 000000000...00110000 48
+// 31: 000000000...00110001
+// 32: 000000000...00110010
+// 33: 000000000...00110011
+// 34: 000000000...00110100
+// 35: 000000000...00110101
+// 36: 000000000...00110110
+// 37: 000000000...00110111
+// 38: 000000000...00111000
+// 39: 000000000...00111001
 int
 isAsciiDigit(int x)
 {
-	return 2;
+  /* int xx = x; */
+	int all = !!(x >> 6) ^ 1;
+
+	int a = (x >> 5) & 1;
+
+	int b = ((x <<= 27, x >>= 27) >> 5) & 1;
+
+	int c = ((x <<= 28, x >>= 28) >> 4) & 1;
+
+	int d = ((x <<= 29, x >>= 29) >> 3) & 1;
+
+	int e = ((x <<= 30, x >>= 30) >> 2) & 1;
+
+	int f = ((x <<= 31, x >>= 31) >> 1) & 1;
+  /* printf("\nx: %d\nall: %d\na : %d\nb: %d\nc: %d\nd: %d\ne: %d\nf: %d\n", xx, all, a, b, c, d, e, f); */
+
+	int res = all & a & b & (!c | (c & !d & !e));
+  return res;
+
 }
 /*
  * conditional - same as x ? y : z
