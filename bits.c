@@ -234,6 +234,10 @@ isTmax(int x)
 	// return !(~(~(x + 1) ^ (x + 1 + !x)));
 	return !(~(x + !(x + 1) ^ (x + 1)));
 }
+
+// I didn't solve this problem myself, sad...
+// steal from https://github.com/myisabella/datalab/blob/master/bits.c#L146
+// Understand now anyway.
 /*
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
  *   where bits are numbered from 0 (least significant) to 31 (most significant)
@@ -245,7 +249,10 @@ isTmax(int x)
 int
 allOddBits(int x)
 {
-	return 2;
+  int mask = (0xAA << 8) + 0xAA;
+  mask = (mask << 16) + mask;
+
+  return !((x & mask) ^ mask);
 }
 /*
  * negate - return -x
