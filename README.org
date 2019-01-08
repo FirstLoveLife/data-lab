@@ -1,0 +1,9 @@
+- bitXor: I have implement /logic or/ in nand2tetris. De_Morgan%27s_laws is the
+  key point.
+- tmin: easy
+- isTmax: spend 3 hours, post my solution on stackoverflow: https://stackoverflow.com/questions/7300650/how-to-find-tmax-without-using-shifts/54060105#54060105
+- allOddBits: I didn't solve this problem myself, sad... steal from https://github.com/myisabella/datalab/blob/master/bits.c#L146
+- negate: easy
+- isAsciiDigit: spend around 2 hours and complete finally.
+- conditional: cannot think of right solution myself.
+- isLessOrEqual: spend around 3 hours, post solution here: https://stackoverflow.com/questions/41948852/bitwise-less-than-or-equal-to/54089132#54089132
