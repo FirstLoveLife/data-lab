@@ -341,8 +341,8 @@ conditional(int x, int y, int z)
 int
 isLessOrEqual(int x, int y)
 {
-	int a = (y + (~x + 1));
-	int b = !(!(a & (1 << 31)) | !a); // !b => y >= x, but maybe overflow
+	int a = y + ~x + 1;
+	int b = a & 1 << 31 & a; // !b => y >= x, but maybe overflow
 	int c = !!(x & (1 << 31)) & !(y & (1 << 31)); // y > 0, x < 0
 	int d = !(x & (1 << 31)) & !!(y & (1 << 31)); // x > 0, y < 0
 
