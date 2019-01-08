@@ -290,7 +290,7 @@ negate(int x)
 int
 isAsciiDigit(int x)
 {
-  /* int xx = x; */
+	/* int xx = x; */
 	int all = !!(x >> 6) ^ 1;
 
 	int a = (x >> 5) & 1;
@@ -304,11 +304,11 @@ isAsciiDigit(int x)
 	int e = ((x <<= 30, x >>= 30) >> 2) & 1;
 
 	int f = ((x <<= 31, x >>= 31) >> 1) & 1;
-  /* printf("\nx: %d\nall: %d\na : %d\nb: %d\nc: %d\nd: %d\ne: %d\nf: %d\n", xx, all, a, b, c, d, e, f); */
+	/* printf("\nx: %d\nall: %d\na : %d\nb: %d\nc: %d\nd: %d\ne: %d\nf: %d\n",
+	 * xx, all, a, b, c, d, e, f); */
 
-	int res = all & a & b & (!c | (c & !d & !e));
-  return res;
-
+	int res = all & a & b & (!c | c & !d & !e);
+	return res;
 }
 /*
  * conditional - same as x ? y : z
@@ -320,7 +320,8 @@ isAsciiDigit(int x)
 int
 conditional(int x, int y, int z)
 {
-	return 2;
+	int mask = !x + ~0;
+	return ~mask & z | mask & y;
 }
 /*
  * isLessOrEqual - if x <= y  then return 1, else return 0
@@ -329,10 +330,33 @@ conditional(int x, int y, int z)
  *   Max ops: 24
  *   Rating: 3
  */
+// 01011 11
+// 10100 ~11 ==  -12
+// 00101 5
+//
+// 00110 6
+// y > x => 0
 int
 isLessOrEqual(int x, int y)
 {
-	return 2;
+	// y - x < 0 => a != 0
+	// y - x >= 0 => a = 0
+	int a = (y + (~x + 1));
+	int b = !(!(a & (1 << 31)) | !a);
+  int c = !!(x & (1 << 31)) & !(y & (1 << 31)); // y > 0, x < 0
+  int d = !(x & (1 << 31)) & !!(y & (1 << 31)); // x > 0, y < 0
+	/* printf("\nx: %d\ny: %d\na: %d\nb: %d\n!!(x & (1 << 31)): %d\n!(y & (1 << 31)): %d\nc: %d\n", x, y, a, b,!!(x & (1 << 31)),!(y & (1 << 31)), c); */
+
+	int mask1 = !c + ~0;
+
+  int ans = ~mask1 & !b | mask1 & 1; // if y > 0 && x < 0, return 1. else return !b
+
+  int mask2 = !d + ~0;
+
+  return ~mask2 & ans | mask2 & 0;
+
+
+	/* return !b | !d; */
 }
 // 4
 /*
