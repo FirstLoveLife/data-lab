@@ -336,27 +336,23 @@ conditional(int x, int y, int z)
 //
 // 00110 6
 // y > x => 0
+/* printf("\nx: %d\ny: %d\na: %d\nb: %d\n!!(x & (1 << 31)): %d\n!(y & (1 <<
+ * 31)): %d\nc: %d\n", x, y, a, b,!!(x & (1 << 31)),!(y & (1 << 31)), c); */
 int
 isLessOrEqual(int x, int y)
 {
-	// y - x < 0 => a != 0
-	// y - x >= 0 => a = 0
-	int a = (y + (~x + 1));
-	int b = !(!(a & (1 << 31)) | !a);
-  int c = !!(x & (1 << 31)) & !(y & (1 << 31)); // y > 0, x < 0
-  int d = !(x & (1 << 31)) & !!(y & (1 << 31)); // x > 0, y < 0
-	/* printf("\nx: %d\ny: %d\na: %d\nb: %d\n!!(x & (1 << 31)): %d\n!(y & (1 << 31)): %d\nc: %d\n", x, y, a, b,!!(x & (1 << 31)),!(y & (1 << 31)), c); */
+	int c = !!(x & (1 << 31)) & !(y & (1 << 31)); // y > 0, x < 0
+	int d = !(x & (1 << 31)) & !!(y & (1 << 31)); // x > 0, y < 0
 
 	int mask1 = !c + ~0;
 
-  int ans = ~mask1 & !b | mask1 & 1; // if y > 0 && x < 0, return 1. else return !b
+	// if y > 0 && x < 0, return 1. else return !b
+	int ans = ~mask1 & !b | mask1 & 1;
 
-  int mask2 = !d + ~0;
+	int mask2 = !d + ~0;
 
-  return ~mask2 & ans | mask2 & 0;
-
-
-	/* return !b | !d; */
+	// if x > 0 && y < 0, then return 0, else return ans.
+	return ~mask2 & ans | mask2 & 0;
 }
 // 4
 /*
