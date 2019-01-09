@@ -353,7 +353,7 @@ isLessOrEqual(int x, int y)
 
 	int mask2 = !d + ~0;
 
-  // if y < 0 && x > 0, return 0, else return ans
+	// if y < 0 && x > 0, return 0, else return ans
 	return ~mask2 & ans | mask2 & 0;
 }
 // 4
@@ -368,7 +368,9 @@ isLessOrEqual(int x, int y)
 int
 logicalNeg(int x)
 {
-	return 2;
+
+	int nonZero = ~x + 1; // if != 0, then return non-zero
+	return (~x & ~nonZero) >> 31 & 1;
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
@@ -385,7 +387,32 @@ logicalNeg(int x)
 int
 howManyBits(int x)
 {
-	return 0;
+	int sign, bit0, bit1, bit2, bit4, bit8, bit16;
+
+	sign = x >> 31;
+
+	/* Bit invert x as needed */
+	x = sign & ~x | ~sign & x;
+
+	/* Binary Search on bit level */
+	bit16 = !!(x >> 16) << 4;
+	x = x >> bit16;
+
+	bit8 = !!(x >> 8) << 3;
+	x = x >> bit8;
+
+	bit4 = !!(x >> 4) << 2;
+	x = x >> bit4;
+
+	bit2 = !!(x >> 2) << 1;
+	x = x >> bit2;
+
+	bit1 = !!(x >> 1);
+	x = x >> bit1;
+
+	bit0 = x;
+
+	return bit16 + bit8 + bit4 + bit2 + bit1 + bit0 + 1;
 }
 // float
 /*

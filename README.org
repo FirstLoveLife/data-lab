@@ -7,3 +7,5 @@
 - isAsciiDigit: spend around 2 hours and complete finally.
 - conditional: cannot think of right solution myself.
 - isLessOrEqual: spend around 3 hours, post solution here: https://stackoverflow.com/questions/41948852/bitwise-less-than-or-equal-to/54089132#54089132
+- Fail to implement, steal from https://github.com/jmorton/academic/blob/master/cs367/lab-01/bits.c#L193
+- steal from https://github.com/jerrylzy/CS33/blob/master/Lab/datalab/bits.c#L158
