@@ -1,12 +1,9 @@
-/*
- * CS:APP Data Lab
- *
- * <Please put your name and userid here>
- *
- * bits.c - Source file with your solutions to the Lab.
- *          This is the file you will hand in to your instructor.
- *
- * WARNING: Do not include the <stdio.h> header; it confuses the dlc
+/ floatScale2** CS
+	: APP Data Lab**<Please put your name and userid here>** bits.c
+	- Source file with your solutions to the
+		  Lab.* This is the file you will hand in to your instructor.** WARNING
+	: Do not include the<stdio.h>
+		  header; it confuses the dlc
  * compiler. You can still use printf for debugging without including
  * <stdio.h>, although you might get a compiler warning. In general,
  * it's not good practice to ignore compiler warnings, but in this
@@ -321,7 +318,7 @@ int
 conditional(int x, int y, int z)
 {
 	int mask = !x + ~0;
-	return ~mask & z | mask & y;
+	return ~(!x + ~0) & z | (!x + ~0) & y;
 }
 /*
  * isLessOrEqual - if x <= y  then return 1, else return 0
@@ -429,7 +426,13 @@ howManyBits(int x)
 unsigned
 floatScale2(unsigned uf)
 {
-	return 2;
+	unsigned f = uf;
+	if((f & 0x7F800000) == 0) //如果阶码为0时，尾数左移1位
+		f = ((f & 0x007FFFFF) << 1) | (0x80000000 & f);
+	else if((f & 0x7F800000) != 0x7F800000) //阶码不等于128时，阶码+1
+		f = f + 0x00800000;
+	printf("\n%d, %d\n", uf, f);
+	return f; // NaN
 }
 /*
  * floatFloat2Int - Return bit-level equivalent of expression (int) f

@@ -89,7 +89,7 @@ unsigned test_floatScale2(unsigned uf) {
   if (isnan(f))
     return uf;
   else
-    return f2u(tf);
+    return f2u(tf : float);
 }
 int test_floatFloat2Int(unsigned uf) {
   float f = u2f(uf);
